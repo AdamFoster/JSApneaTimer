@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JS Apnea Timer</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>Apnea Timer</h1>
+    <div v-if="editIndex == -1">
+      <p>Select a table</p>
+      <ol>
+        <table-item
+          v-for="(table, index) in tables"
+          v-bind:table="table"
+          v-bind:table-index="index"
+          v-bind:key="table.label"
+          v-on:edit-table="editTable"
+        ></table-item>
+      </ol>
+    </div>
+
+    <div is="edit-table"
+      v-if="editIndex > -1"
+      v-bind:inital-table="tables[editIndex]"
+      v-bind:table-index="editIndex"
+      v-bind:key="tables[editIndex].label"
+      v-on:save-edit="saveEdit"
+      v-on:cancel-edit="cancelEdit">
+    </div>
+  </div>
+
+  <script src="table-item.js"></script>
+  <script src="edit-table.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>
