@@ -6,7 +6,7 @@ Vue.component('edit-table', {
     template: `
         <div> 
             <div>Edit table {{ newTable.label }} </div>
-            <div>({{ totalDuration }} seconds)</div>
+            <div>({{ secondsToMS(totalDuration) }})</div>
             <ol>
                 <li is="edit-table-interval"
                     v-for="(interval, index) in newTable.intervals"
@@ -45,6 +45,9 @@ Vue.component('edit-table', {
         },
         updateType: function(index_type) {
             this.newTable.intervals[index_type.index].type = index_type.type;
-        }
+        },
+        secondsToMS(seconds) {
+            return SECONDS_TO_MIN_SEC(seconds);
+        },
     }
 })

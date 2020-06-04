@@ -6,11 +6,16 @@ Vue.component('table-item', {
     template: `
         <li> 
             <div>{{ table.label }} </div>
-            <div>({{ totalDuration }} seconds)</div>
+            <div>({{ secondsToMS(totalDuration) }})</div>
             <button v-on:click="$emit('edit-table', tableIndex)">Edit</button>
             <button v-on:click="$emit('go-table', tableIndex)">Go</button> 
         </li>
     `,
+    methods: {
+        secondsToMS(seconds) {
+            return SECONDS_TO_MIN_SEC(seconds);
+        },
+    },
     computed: {
         totalDuration: function() {
             return this.table.intervals.reduce((accumulator, currentValue) => accumulator + currentValue.duration, 0);

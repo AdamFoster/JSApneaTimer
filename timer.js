@@ -28,7 +28,8 @@ Vue.component('timer', {
             elapsedTimeMillis: 0,
             intervalElapsedTimeMillis: 0,
             types: INTERVAL_TYPES_MAP,
-            timerStates: {ready: 'Ready', paused: 'Paused', running: 'Running', done: 'Done'}
+            timerStates: {ready: 'Ready', paused: 'Paused', running: 'Running', done: 'Done'},
+            lastTick: 0,
         };
     },
     methods: {
@@ -47,9 +48,10 @@ Vue.component('timer', {
 
         },
         secondsToMS(seconds) {
-            m = seconds/60|0;
-            s = seconds%60;
-            return (''+m).padStart(2, '0') + ":" + (''+s).padStart(2, '0');
+            return SECONDS_TO_MIN_SEC(seconds);
+        },
+        tick() {
+
         }
     },
     computed: {

@@ -12,3 +12,9 @@ var STATES = {
     EDIT: 'edit',
     LIST: 'list'
 };
+
+function SECONDS_TO_MIN_SEC(seconds) {
+    m = seconds/60|0;
+    s = seconds%60;
+    return (''+m).padStart(2, '0') + ":" + (''+s).padStart(2, '0');
+}
