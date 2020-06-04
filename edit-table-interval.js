@@ -7,13 +7,14 @@ Vue.component('edit-table-interval', {
         <li> 
             <div>
                 <select v-model="type">
-                    <option v-for="option in type_map" v-bind:value="option.value">
-                        {{ option.text }}
+                    <option v-for="(value, key) of type_map" v-bind:value="key">
+                        {{ value }}
                     </option>
                 </select>
                 for 
                 <input v-model="duration"></input>
-            seconds</div>
+                seconds
+            </div>
         </li>
     `,
     data: function() {
