@@ -4,7 +4,7 @@ Vue.component('table-item', {
         tableIndex: Number,
     },
     template: `
-        <li> 
+        <li class="list-item"> 
             <div>{{ table.label }} </div>
             <div>({{ secondsToMS(totalDuration) }})</div>
             <button v-on:click="$emit('edit-table', tableIndex)">Edit</button>

@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>JS Apnea Timer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://unpkg.com/vue"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
@@ -9,11 +10,11 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" class="container">
         <h1>Apnea Timer</h1>
         <div v-if="state == 'list'">
             <p>Select a table</p>
-            <ol>
+            <ol class="list-group">
                 <li is="table-item"
                     v-for="(table, index) in tables"
                     v-bind:table="table"
