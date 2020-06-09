@@ -27,7 +27,11 @@ var app = new Vue({
                     { type: 'apnea', duration: 4},
                 ]
             }
-        ]
+        ],
+        emptyTable: {
+            label: 'New table',
+            intervals: [ ],
+        }
     },
     methods: {
         editTable: function(tableIndex) {
@@ -38,8 +42,16 @@ var app = new Vue({
             this.tableIndex = tableIndex;
             this.state = STATES.TIMER;
         },
+        newTable: function() {
+
+        },
         saveEdit: function(newTable) {
-            this.tables[this.tableIndex] = newTable;
+            if (this.tableIndex > -1) {
+                this.tables[this.tableIndex] = newTable;
+            }
+            else {
+                this.tables.push(newTable);
+            }
             this.tableIndex = -1;
             this.state = STATES.LIST;
         },

@@ -3,27 +3,39 @@
 <head>
     <title>JS Apnea Timer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <script src="https://unpkg.com/vue"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!-- Load required Bootstrap and BootstrapVue CSS -->
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+
+    <script src="//unpkg.com/vue"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
 </head>
 
 <body>
     <div id="app" class="container">
         <h1>Apnea Timer</h1>
-        <div v-if="state == 'list'">
+        <div v-if="state == 'list'" >
             <p>Select a table</p>
-            <ol class="list-group">
-                <li is="table-item"
+            <div class="container">
+                <div class="row my-2">
+                    <div class="col-sm"><p class="font-weight-bold">Name</p></div>
+                    <div class="col-sm"><p class="font-weight-bold">Total Time</p></div>
+                    <div class="col-sm"><p class="font-weight-bold">Action</p></div>
+                </div>
+                <div is="table-item" 
                     v-for="(table, index) in tables"
                     v-bind:table="table"
                     v-bind:table-index="index"
                     v-bind:key="table.label"
                     v-on:edit-table="editTable"
                     v-on:go-table="goTable"
-                ></li>
-            </ol>
+                ></div>
+            </div>
+            <button v-on:click="newTable">Create Table</button>
         </div>
 
         <div is="edit-table"

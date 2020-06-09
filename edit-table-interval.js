@@ -4,18 +4,20 @@ Vue.component('edit-table-interval', {
         intervalIndex: Number,
     },
     template: `
-        <li> 
-            <div>
+        <div class="row my-2"> 
+            <div class="col">
                 <select v-model="type">
                     <option v-for="(value, key) of type_map" v-bind:value="key">
                         {{ value }}
                     </option>
                 </select>
                 for 
-                <input v-model="duration"></input>
+                <input v-model="duration" style="width: 60px"></input>
                 seconds
+                <button v-on:click="$emit('add-interval', intervalIndex)"><b-icon-plus-circle></b-icon-plus-circle></button>
+                <button v-on:click="$emit('delete-interval', intervalIndex)"><b-icon-trash></b-icon-trash></button>
             </div>
-        </li>
+        </div>
     `,
     data: function() {
         return {
@@ -27,7 +29,8 @@ Vue.component('edit-table-interval', {
     computed: {
 
     },
-    methods: {},
+    methods: {
+    },
     watch: {
         duration: function(newDuration, oldDuration) {
             if (! isNaN(newDuration)) {

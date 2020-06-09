@@ -4,19 +4,18 @@ Vue.component('timer', {
         tableIndex: Number,
     },
     template: `
-        <div>
-            <div>{{ table.label }} </div>
-            <div>{{ timerStates[state] }}</div>
-            <div>{{ timerDisplay }}</div>
-            <ol class="list-group">
-                <li v-for="(interval, index) in table.intervals" class="list-group-item" v-bind:class="{ active: index==currentInterval }">
+        <div class="container">
+            <div class="row">{{ table.label }} </div>
+            <div class="row">{{ timerDisplay }}</div>
+            <div class="list-group">
+                <div v-for="(interval, index) in table.intervals" class="list-group-item" v-bind:class="{ active: index==currentInterval }">
                     {{ types[interval.type] }} for {{ secondsToMS(interval.duration) }}
-                </li>
-            </ol>
+                </div>
+            </div>
             <button v-if="state == timerStates.ready || state == timerStates.paused" v-on:click="start" >Start</button>
             <button v-if="state == timerStates.running" v-on:click="pause">Pause</button>
             <button v-if="state == timerStates.paused || state == timerStates.done" v-on:click="reset">Reset</button>
-            <button v-on:click="$emit('done', tableIndex)">Exit</button> 
+            <button v-on:click="done">Exit</button> 
             <div>{{ secondsToMS(timeLeft) }} left</div>
             <div>({{ secondsToMS(totalDuration) }} total time)</div>
         </div>
@@ -52,7 +51,7 @@ Vue.component('timer', {
         },
         pause: function() {
             if (this.state == this.timerStates.running) {
-                clearInterval(this.intervalHandle);
+                clearInterval(this.timerHandle);
                 this.timerHandle = 0;
                 this.state = this.timerStates.paused;
             }
@@ -75,6 +74,14 @@ Vue.component('timer', {
                 this.error = 'Error trying to reset a timer in "' + this.state + '" state';
                 console.log(this.error);
             }
+        },
+        done: function() {
+            if (this.state == this.timerStates.running) {
+                clearInterval(this.timerHandle);
+                this.timerHandle = 0;
+            }
+            this.state = this.timerStates.done;
+            this.$emit('done', this.tableIndex);
         },
         secondsToMS(seconds) {
             return SECONDS_TO_MIN_SEC(seconds);

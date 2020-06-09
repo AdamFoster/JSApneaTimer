@@ -4,12 +4,14 @@ Vue.component('table-item', {
         tableIndex: Number,
     },
     template: `
-        <li class="list-item"> 
-            <div>{{ table.label }} </div>
-            <div>({{ secondsToMS(totalDuration) }})</div>
-            <button v-on:click="$emit('edit-table', tableIndex)">Edit</button>
-            <button v-on:click="$emit('go-table', tableIndex)">Go</button> 
-        </li>
+        <div class="row my-2"> 
+            <div class="col-sm">{{ table.label }} </div>
+            <div class="col-sm">({{ secondsToMS(totalDuration) }})</div>
+            <div class="col-sm">
+                <button v-on:click="$emit('edit-table', tableIndex)">Edit</button>
+                <button v-on:click="$emit('go-table', tableIndex)">Go</button>
+            </div>
+        </div>
     `,
     methods: {
         secondsToMS(seconds) {
