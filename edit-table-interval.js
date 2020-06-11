@@ -2,6 +2,7 @@ Vue.component('edit-table-interval', {
     props: {
         interval: Object, 
         intervalIndex: Number,
+        intervalCount: Number
     },
     template: `
         <div class="row my-2"> 
@@ -12,10 +13,12 @@ Vue.component('edit-table-interval', {
                     </option>
                 </select>
                 for 
-                <input v-model="duration" style="width: 60px"></input>
+                <input v-model="duration" style="width: 60px" type="number"></input>
                 seconds
                 <button v-on:click="$emit('add-interval', intervalIndex)"><b-icon-plus-circle></b-icon-plus-circle></button>
                 <button v-on:click="$emit('delete-interval', intervalIndex)"><b-icon-trash></b-icon-trash></button>
+                <button v-on:click="$emit('up-interval', intervalIndex)" v-bind:disabled="intervalIndex == 0"><b-icon-arrow-up></b-icon-arrow-up></button>
+                <button v-on:click="$emit('down-interval', intervalIndex)" v-bind:disabled="intervalIndex+1 == intervalCount"><b-icon-arrow-down></b-icon-arrow-down></button>
             </div>
         </div>
     `,
@@ -30,11 +33,15 @@ Vue.component('edit-table-interval', {
 
     },
     methods: {
+        updateDuration: function() {
+            this.$emit('update-duration', {index: this.intervalIndex, duration: Number(this.duration)});
+        }
     },
     watch: {
         duration: function(newDuration, oldDuration) {
             if (! isNaN(newDuration)) {
-                this.$emit('update-duration', {index: this.intervalIndex, duration: Number(newDuration)});
+                _.debounce(this.updateDuration, 1000)();
+                //this.$emit('update-duration', {index: this.intervalIndex, duration: Number(newDuration)});
             }
         },
         type: function(newType, oldType) {

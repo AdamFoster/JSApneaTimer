@@ -4,6 +4,8 @@
     <title>JS Apnea Timer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link type="text/css" rel="stylesheet" href="styles.css" />
+
     <!-- Load required Bootstrap and BootstrapVue CSS -->
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
@@ -21,7 +23,7 @@
         <div v-if="state == 'list'" >
             <p>Select a table</p>
             <div class="container">
-                <div class="row my-2">
+                <div class="row my-2 d-none d-sm-flex">
                     <div class="col-sm"><p class="font-weight-bold">Name</p></div>
                     <div class="col-sm"><p class="font-weight-bold">Total Time</p></div>
                     <div class="col-sm"><p class="font-weight-bold">Action</p></div>
@@ -43,6 +45,15 @@
             v-bind:inital-table="tables[tableIndex]"
             v-bind:table-index="tableIndex"
             v-bind:key="tables[tableIndex].label"
+            v-on:save-edit="saveEdit"
+            v-on:cancel-edit="cancelEdit">
+        </div>
+
+        <div is="edit-table"
+            v-if="state == 'edit' && tableIndex == -1"
+            v-bind:inital-table="emptyTable"
+            v-bind:table-index="tableIndex"
+            v-bind:key="emptyTable.label"
             v-on:save-edit="saveEdit"
             v-on:cancel-edit="cancelEdit">
         </div>

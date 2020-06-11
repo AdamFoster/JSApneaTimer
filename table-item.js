@@ -6,7 +6,7 @@ Vue.component('table-item', {
     template: `
         <div class="row my-2"> 
             <div class="col-sm">{{ table.label }} </div>
-            <div class="col-sm">({{ secondsToMS(totalDuration) }})</div>
+            <div class="col-sm">{{ secondsToMS(totalDuration) }}</div>
             <div class="col-sm">
                 <button v-on:click="$emit('edit-table', tableIndex)">Edit</button>
                 <button v-on:click="$emit('go-table', tableIndex)">Go</button>

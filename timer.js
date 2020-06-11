@@ -5,19 +5,58 @@ Vue.component('timer', {
     },
     template: `
         <div class="container">
-            <div class="row">{{ table.label }} </div>
-            <div class="row">{{ timerDisplay }}</div>
-            <div class="list-group">
-                <div v-for="(interval, index) in table.intervals" class="list-group-item" v-bind:class="{ active: index==currentInterval }">
-                    {{ types[interval.type] }} for {{ secondsToMS(interval.duration) }}
+            <div class="row">{{ table.label }} ({{ secondsToMS(totalDuration) }} total time - {{ secondsToMS(timeLeft) }} left)</div>
+            <div class="row">
+
+                <div class="col">
+                    <div class="container">
+                        <div class="row">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col" style="z-index: 100">
+                                    <svg class="base-timer-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                        <g class="base-timer-circle">
+                                            <circle class="base-timer-path-elapsed" cx="50" cy="50" r="45"></circle>
+                                            <path class="base-timer-path-remaining"
+                                                :stroke-dasharray="strokeArray"
+                                                :class="ringColor" 
+                                                d="
+                                                M 50, 50
+                                                m -45, 0
+                                                a 45,45 0 1,0 90,0
+                                                a 45,45 0 1,0 -90,0
+                                                "
+                                            ></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                
+                                <div class="timer-text-container" >
+                                    <p class="text-center timer-text-type">{{ currentInterval > -1 ? types[table.intervals[currentInterval].type] : "&nbsp" }}</p>
+                                    <p class="text-center timer-text">{{ timerDisplay }}</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="timer-button" v-bind:disabled="state != timerStates.paused && state != timerStates.done" v-on:click="reset"><b-icon-arrow-counterclockwise></b-icon-arrow-counterclockwise></button>
+                                        <button class="timer-button" v-bind:disabled="state != timerStates.running" v-on:click="pause"><b-icon-pause></b-icon-pause></button>
+                                        <button class="timer-button" v-bind:disabled="state != timerStates.ready && state != timerStates.paused" v-on:click="start" ><b-icon-play></b-icon-play></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <button v-on:click="done">Back Home</button> 
+                    
                 </div>
+                
+                <div class="col">
+                    <div class="list-group">
+                        <div v-for="(interval, index) in table.intervals" class="list-group-item" v-bind:class="{ active: index==currentInterval }">
+                            {{ types[interval.type] }} for {{ secondsToMS(interval.duration) }}
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <button v-if="state == timerStates.ready || state == timerStates.paused" v-on:click="start" >Start</button>
-            <button v-if="state == timerStates.running" v-on:click="pause">Pause</button>
-            <button v-if="state == timerStates.paused || state == timerStates.done" v-on:click="reset">Reset</button>
-            <button v-on:click="done">Exit</button> 
-            <div>{{ secondsToMS(timeLeft) }} left</div>
-            <div>({{ secondsToMS(totalDuration) }} total time)</div>
         </div>
     `,
     data: function() {
@@ -128,7 +167,29 @@ Vue.component('timer', {
             else {
                 return 'Done';
             }
+        },
+        ringColor: function() {
+            if (this.currentInterval > -1 && this.state == this.timerStates.running) {
+                if (this.table.intervals[this.currentInterval].type == "apnea") {
+                    return "color-apnea";
+                }
+                else {
+                    return "color-breathe";
+                }
+            }
+            else if (this.state == this.timerStates.paused) {
+                return "color-paused";
+            }
+            else {
+                return "color-other";
+            }
+        },
+        strokeArray: function() {
+            if (this.currentInterval == -1) {
+                return "0 0"
+            }
+            var elapsed = (this.intervalElapsedTimeMillis) / (this.table.intervals[this.currentInterval].duration * 1000);
+            return `${(283 * (1-elapsed))|0} 283`;
         }
-
     }
 })

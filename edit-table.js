@@ -5,20 +5,23 @@ Vue.component('edit-table', {
     },
     template: `
         <div> 
-            <div>Edit table {{ newTable.label }} </div>
-            <div>Total time: {{ secondsToMS(totalDuration) }}</div>
+            <div>Editing table <input v-model="newTable.label"></input> </div>
             <div class="container">
                 <div is="edit-table-interval"
                     v-for="(interval, index) in newTable.intervals"
                     v-bind:interval="interval"
                     v-bind:interval-index="index"
+                    v-bind:interval-count="newTable.intervals.length"
                     v-bind:key="interval.type+'-'+interval.duration+'-'+index"
                     v-on:update-duration="updateDuration"
                     v-on:update-type="updateType"
                     v-on:add-interval="addInterval"
                     v-on:delete-interval="deleteInterval"
+                    v-on:up-interval="upInterval"
+                    v-on:down-interval="downInterval"
                 ></div>
             </div class="container">
+            <div>Total time: {{ secondsToMS(totalDuration) }}</div>
             <button v-on:click="$emit('save-edit', newTable)">Save</button> 
             <button v-on:click="$emit('cancel-edit')">Cancel</button>
             <button v-on:click="revert">Revert</button> 
@@ -61,6 +64,22 @@ Vue.component('edit-table', {
         },
         deleteInterval: function(index) {
             this.newTable.intervals.splice(index, 1);
+        },        
+        upInterval: function(index) {
+            console.log('moving up');
+            var old = _.cloneDeep(this.newTable.intervals[index]);
+            this.newTable.intervals[index].duration = this.newTable.intervals[index-1].duration;
+            this.newTable.intervals[index].type = this.newTable.intervals[index-1].type;
+            this.newTable.intervals[index-1].duration = old.duration;
+            this.newTable.intervals[index-1].type = old.type;
+        },
+        downInterval: function(index) {
+            console.log('moving down');
+            var old = _.cloneDeep(this.newTable.intervals[index]);
+            this.newTable.intervals[index].duration = this.newTable.intervals[index+1].duration;
+            this.newTable.intervals[index].type = this.newTable.intervals[index+1].type;
+            this.newTable.intervals[index+1].duration = old.duration;
+            this.newTable.intervals[index+1].type = old.type;
         }
     }
 })

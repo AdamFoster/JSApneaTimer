@@ -30,7 +30,7 @@ var app = new Vue({
         ],
         emptyTable: {
             label: 'New table',
-            intervals: [ ],
+            intervals: [ { type: 'breathe', duration: 0} ],
         }
     },
     methods: {
@@ -43,7 +43,8 @@ var app = new Vue({
             this.state = STATES.TIMER;
         },
         newTable: function() {
-
+            this.tableIndex = -1;
+            this.state = STATES.EDIT;
         },
         saveEdit: function(newTable) {
             if (this.tableIndex > -1) {
