@@ -1,0 +1,66 @@
+
+.base-timer {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+.base-timer-svg {
+    transform: scaleX(-1);
+    position: relative;
+}
+
+.base-timer-circle {
+    fill: none;
+    stroke: none;
+}
+
+.base-timer-path-elapsed {
+    stroke-width: 7px;
+    stroke: grey;
+}
+
+
+.color-paused {
+    color: red;
+}.color-other {
+    color: darkgrey;
+}
+.color-apnea {
+    color: blue;
+}
+.color-breathe {
+    color: green;
+}
+
+.base-timer-path-remaining {
+    stroke-width: 7px;
+    stroke-linecap: round;
+    transform: rotate(90deg);
+    transform-origin: center;
+    fill-rule: nonzero;
+    stroke: currentColor;
+}
+
+.timer-text {
+    font-size: 5rem;
+    margin-bottom: 5%;
+    line-height: 1.3;
+}
+
+.timer-text-type {
+    font-size: 3rem;
+    margin-bottom: 0px;
+    line-height: 1.0;
+}
+
+.timer-text-container {
+    z-index: 110; 
+    position: absolute; 
+    margin-top: 27%; 
+    width: 100%;
+}
+
+.timer-button {
+    margin: 1px; 
+}

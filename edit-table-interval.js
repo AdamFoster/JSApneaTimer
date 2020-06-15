@@ -6,7 +6,7 @@ Vue.component('edit-table-interval', {
     },
     template: `
         <div class="row my-2"> 
-            <div class="col">
+            <div class="col-auto">
                 <select v-model="type">
                     <option v-for="(value, key) of type_map" v-bind:value="key">
                         {{ value }}
@@ -15,6 +15,8 @@ Vue.component('edit-table-interval', {
                 for 
                 <input v-model="duration" style="width: 60px" type="number"></input>
                 seconds
+            </div>
+            <div class="col-auto">
                 <button v-on:click="$emit('add-interval', intervalIndex)"><b-icon-plus-circle></b-icon-plus-circle></button>
                 <button v-on:click="$emit('delete-interval', intervalIndex)"><b-icon-trash></b-icon-trash></button>
                 <button v-on:click="$emit('up-interval', intervalIndex)" v-bind:disabled="intervalIndex == 0"><b-icon-arrow-up></b-icon-arrow-up></button>

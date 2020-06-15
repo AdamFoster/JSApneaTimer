@@ -58,6 +58,14 @@
             v-on:cancel-edit="cancelEdit">
         </div>
 
+        <div is="create-table"
+            v-if="state == 'create'"
+            v-on:new-co2="createCO2"
+            v-on:new-o2="createO2"
+            v-on:new-blank="createBlank"
+            v-on:new-cancel="createCancel">
+        </div>
+
         <div is="timer"
             v-if="state == 'timer' && tableIndex > -1"
             v-bind:inital-table="tables[tableIndex]"
@@ -74,6 +82,7 @@
     <script src="edit-table-interval.js"></script>
     <script src="table-item.js"></script>
     <script src="edit-table.js"></script>
+    <script src="create-table.js"></script>
 
     <script src="app.js"></script>
 </body>

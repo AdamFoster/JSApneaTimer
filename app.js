@@ -44,7 +44,7 @@ var app = new Vue({
         },
         newTable: function() {
             this.tableIndex = -1;
-            this.state = STATES.EDIT;
+            this.state = STATES.CREATE;
         },
         saveEdit: function(newTable) {
             if (this.tableIndex > -1) {
@@ -63,6 +63,36 @@ var app = new Vue({
         done: function() {
             this.tableIndex = -1;
             this.state = STATES.LIST;
-        }
+        },
+        createBlank: function() {
+            this.tableIndex = -1;
+            this.state = STATES.EDIT;
+        },
+        createCancel: function() {
+            this.tableIndex = -1;
+            this.state = STATES.LIST;
+        },
+        createO2: function(max_breathold) {
+            let max = Number(max_breathold);
+            let table = { label: 'New O2 Table', intervals: []};
+            for (let i=40 ; i<=80 ; i+=10) {
+                table.intervals.push({type: 'breathe', duration: 120});
+                table.intervals.push({type: 'apnea', duration: (max*i/100)|0});
+            }
+            this.tables.push(table);
+            this.tableIndex = this.tables.length - 1;
+            this.state = STATES.EDIT;
+        },
+        createCO2: function(max_breathold) {
+            let max = Number(max_breathold);
+            let table = { label: 'New CO2 Table', intervals: []};
+            for (let i=120 ; i>=15 ; i-=15) {
+                table.intervals.push({type: 'breathe', duration: i});
+                table.intervals.push({type: 'apnea', duration: (max/2)|0});
+            }
+            this.tables.push(table);
+            this.tableIndex = this.tables.length - 1;
+            this.state = STATES.EDIT;
+        },
     },
 })

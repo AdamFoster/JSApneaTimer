@@ -10,7 +10,8 @@ var INTERVAL_TYPES_MAP = {
 var STATES = {
     TIMER: 'timer',
     EDIT: 'edit',
-    LIST: 'list'
+    LIST: 'list',
+    CREATE: 'create'
 };
 
 function SECONDS_TO_MIN_SEC(seconds) {
