@@ -1,30 +1,52 @@
+const routes = [
+    { path: '/', name: 'home', component: Vue.component('list-tables') },
+    { path: '/edit', component: Vue.component('edit-table') }
+];
+
+const router = new VueRouter({
+    routes // short for `routes: routes`
+});
+
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+    state: {
+      count: 0
+    },
+    mutations: {
+      increment (state) {
+        state.count++
+      }
+    }
+  })
+
 var app = new Vue({
+    router, store,
     el: '#app',
     data: {
-        message: 'Hello Vue!',
         state: 'list', //'edit', 'run'
         tableIndex: -1,
         tables: [
             {
                 label: 'Demo CO2 table',
                 intervals: [
-                    { type: 'breathe', duration: 4},
-                    { type: 'apnea', duration: 4},
-                    { type: 'breathe', duration: 3},
-                    { type: 'apnea', duration: 4},
-                    { type: 'breathe', duration: 1},
-                    { type: 'apnea', duration: 4},
+                    { type: 'breathe', duration: 4 },
+                    { type: 'apnea', duration: 4 },
+                    { type: 'breathe', duration: 3 },
+                    { type: 'apnea', duration: 4 },
+                    { type: 'breathe', duration: 1 },
+                    { type: 'apnea', duration: 4 },
                 ]
             },
             {
                 label: 'Demo O2 table',
                 intervals: [
-                    { type: 'breathe', duration: 4},
-                    { type: 'apnea', duration: 2},
-                    { type: 'breathe', duration: 4},
-                    { type: 'apnea', duration: 3},
-                    { type: 'breathe', duration: 4},
-                    { type: 'apnea', duration: 4},
+                    { type: 'breathe', duration: 4 },
+                    { type: 'apnea', duration: 2 },
+                    { type: 'breathe', duration: 4 },
+                    { type: 'apnea', duration: 3 },
+                    { type: 'breathe', duration: 4 },
+                    { type: 'apnea', duration: 4 },
                 ]
             }
         ],
@@ -95,4 +117,5 @@ var app = new Vue({
             this.state = STATES.EDIT;
         },
     },
-})
+});
+

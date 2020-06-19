@@ -1,4 +1,4 @@
-Vue.component('edit-table', {
+const EditTable = Vue.component('edit-table', {
     props: {
         initalTable: Object, 
         tableIndex: Number,
