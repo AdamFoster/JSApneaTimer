@@ -1,8 +1,8 @@
 const routes = [
     { path: '/', name: 'home', component: Vue.component('list-tables') },
-    { path: '/table/new', component: Vue.component('edit-table') },
-    { path: '/table/:index/edit', component: Vue.component('edit-table') },
-    { path: '/table/:index', component: Vue.component('timer') },
+    { path: '/table/new', name: 'createTable', component: Vue.component('edit-table') },
+    { path: '/table/:index/edit', name: 'editTable', component: Vue.component('edit-table') },
+    { path: '/table/:index', name: 'timer', component: Vue.component('timer') },
 ];
 
 const router = new VueRouter({

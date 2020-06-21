@@ -20,7 +20,7 @@ Vue.component('list-tables', {
                     v-on:go-table="$emit(goTable)"
                 ></div>
             </div>
-            <button v-on:click="$emit(newTable)">Create Table</button>
+            <router-link :to="'/table/new'">Create Table</router-link>
         </div>
     `,
     data: function() {
