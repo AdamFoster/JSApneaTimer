@@ -1,7 +1,5 @@
 Vue.component('timer', {
     props: {
-        initalTable: Object, 
-        tableIndex: Number,
     },
     template: `
         <div class="container">
@@ -43,8 +41,7 @@ Vue.component('timer', {
                         </div>
                     </div>
 
-
-                    <button v-on:click="done">Back Home</button> 
+                    <router-link to="/">Go back home</router-link> 
                     
                 </div>
                 
@@ -62,7 +59,7 @@ Vue.component('timer', {
     data: function() {
         return {
             state: 'Ready',
-            table: _.cloneDeep(this.initalTable),
+            // table: _.cloneDeep(this.initalTable),
             currentInterval: -1,
             elapsedTimeMillis: 0,
             intervalElapsedTimeMillis: 0,
@@ -120,7 +117,7 @@ Vue.component('timer', {
                 this.timerHandle = 0;
             }
             this.state = this.timerStates.done;
-            this.$emit('done', this.tableIndex);
+            this.$emit('done'); //, this.tableIndex);
         },
         secondsToMS(seconds) {
             return SECONDS_TO_MIN_SEC(seconds);
@@ -151,6 +148,9 @@ Vue.component('timer', {
         }
     },
     computed: {
+        table: function() {
+            return this.$store.state.tables[this.$route.params.index];
+        },
         totalDuration: function() {
             return this.table.intervals.reduce((accumulator, currentValue) => accumulator + currentValue.duration, 0);
         },

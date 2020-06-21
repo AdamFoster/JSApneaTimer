@@ -1,6 +1,6 @@
 Vue.component('list-tables', {
     props: {
-        tables: Array,
+        
     },
     template: `
         <div> 
@@ -26,9 +26,9 @@ Vue.component('list-tables', {
     data: function() {
         return {};
     }, 
-    computed: {
-
-    },
+    computed: Vuex.mapState({
+        tables: 'tables'
+    } ),
     created: function() {
     
     },

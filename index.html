@@ -22,50 +22,6 @@
 <body>
     <div id="app" class="container">
         <h1>Apnea Timer</h1>
-        <div is="list-tables" 
-            v-if="state == 'list'" 
-            v-bind:tables="tables">
-            
-        </div>
-
-        <div is="edit-table"
-            v-if="state == 'edit' && tableIndex > -1"
-            v-bind:inital-table="tables[tableIndex]"
-            v-bind:table-index="tableIndex"
-            v-bind:key="tables[tableIndex].label"
-            v-on:save-edit="saveEdit"
-            v-on:cancel-edit="cancelEdit">
-        </div>
-
-        <div is="edit-table"
-            v-if="state == 'edit' && tableIndex == -1"
-            v-bind:inital-table="emptyTable"
-            v-bind:table-index="tableIndex"
-            v-bind:key="emptyTable.label"
-            v-on:save-edit="saveEdit"
-            v-on:cancel-edit="cancelEdit">
-        </div>
-
-        <div is="create-table"
-            v-if="state == 'create'"
-            v-on:new-co2="createCO2"
-            v-on:new-o2="createO2"
-            v-on:new-blank="createBlank"
-            v-on:new-cancel="createCancel">
-        </div>
-
-        <div is="timer"
-            v-if="state == 'timer' && tableIndex > -1"
-            v-bind:inital-table="tables[tableIndex]"
-            v-bind:table-index="tableIndex"
-            v-bind:key="tables[tableIndex].label"
-            v-on:done="done"
-        >
-        </div>
-
-        <hr></hr>
-        <router-link :to="{ name: 'home', params: {tables: tables} }">Go to Home</router-link>
-        <router-link to="/edit">Go to Edit</router-link>
 
         <router-view></router-view>
 

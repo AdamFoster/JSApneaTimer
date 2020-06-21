@@ -1,7 +1,5 @@
 const EditTable = Vue.component('edit-table', {
     props: {
-        initalTable: Object, 
-        tableIndex: Number,
     },
     template: `
         <div> 
@@ -22,14 +20,14 @@ const EditTable = Vue.component('edit-table', {
                 ></div>
             </div class="container">
             <div>Total time: {{ secondsToMS(totalDuration) }}</div>
-            <button v-on:click="$emit('save-edit', newTable)">Save</button> 
-            <button v-on:click="$emit('cancel-edit')">Cancel</button>
+            <button v-on:click="save">Save</button> 
+            <router-link to="/">Cancel</router-link>
             <button v-on:click="revert">Revert</button> 
         </div>
     `,
     data: function() {
         return { 
-            newTable: _.cloneDeep(this.initalTable),
+            newTable: _.cloneDeep(this.$store.state.tables[this.$route.params.index]),
         }
     }, 
     computed: {
@@ -41,8 +39,12 @@ const EditTable = Vue.component('edit-table', {
     
     },
     methods: {
+        save: function() {
+            this.$store.commit('updateTable', {table: this.newTable, tableIndex: this.$route.params.index} )
+            this.$router.push('/')
+        },
         revert: function() {
-            this.newTable = _.cloneDeep(this.initalTable);
+            this.newTable = _.cloneDeep(this.$store.state.tables[this.$route.params.index]);
             this.$forceUpdate();
         },
         updateDuration: function(index_duration) {

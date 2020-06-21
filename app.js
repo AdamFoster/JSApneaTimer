@@ -1,6 +1,8 @@
 const routes = [
     { path: '/', name: 'home', component: Vue.component('list-tables') },
-    { path: '/edit', component: Vue.component('edit-table') }
+    { path: '/table/new', component: Vue.component('edit-table') },
+    { path: '/table/:index/edit', component: Vue.component('edit-table') },
+    { path: '/table/:index', component: Vue.component('timer') },
 ];
 
 const router = new VueRouter({
@@ -11,21 +13,11 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-      count: 0
-    },
-    mutations: {
-      increment (state) {
-        state.count++
-      }
-    }
-  })
-
-var app = new Vue({
-    router, store,
-    el: '#app',
-    data: {
-        state: 'list', //'edit', 'run'
-        tableIndex: -1,
+        xtables: [], 
+        emptyTable: {
+            label: 'New table',
+            intervals: [ { type: 'breathe', duration: 0} ],
+        },
         tables: [
             {
                 label: 'Demo CO2 table',
@@ -50,10 +42,27 @@ var app = new Vue({
                 ]
             }
         ],
-        emptyTable: {
-            label: 'New table',
-            intervals: [ { type: 'breathe', duration: 0} ],
-        }
+    },
+    mutations: {
+        addTable (state, table) {
+            state.tables.push(table);
+        },
+        updateTable (state, payload) { //table, tableIndex
+            console.log(payload);
+            state.tables[payload.tableIndex] = _.cloneDeep(payload.table);
+        },
+        deleteTable (state, tableIndex) {
+            state.tables.intervals.splice(tableIndex, 1);
+        },
+    }
+});
+
+var app = new Vue({
+    router, store,
+    el: '#app',
+    data: {
+        state: 'list', //'edit', 'run'
+        tableIndex: -1,
     },
     methods: {
         editTable: function(tableIndex) {
