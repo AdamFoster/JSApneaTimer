@@ -47,7 +47,7 @@ Vue.component('timer', {
                 
                 <div class="col">
                     <div class="list-group">
-                        <div v-for="(interval, index) in table.intervals" class="list-group-item" v-bind:class="{ active: index==currentInterval }">
+                        <div v-for="(interval, index) in table.intervals" class="list-group-item" v-bind:class="{ active: index==currentInterval, 'interval-apnea': interval.type=='apnea', 'interval-breathe': interval.type=='breathe'}">
                             {{ types[interval.type] }} for {{ secondsToMS(interval.duration) }}
                         </div>
                     </div>

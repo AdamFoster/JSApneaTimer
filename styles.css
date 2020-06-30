@@ -20,6 +20,19 @@
     stroke: grey;
 }
 
+.interval-apnea {
+    border-left-color: blue !important;
+    border-left-width: 5px !important;
+}
+
+.interval-breathe {
+    border-left-color: green !important;
+    border-left-width: 5px !important;
+}
+
+.interval-active {
+    border-color: red;
+}
 
 .color-paused {
     color: red;

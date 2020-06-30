@@ -5,7 +5,7 @@ Vue.component('edit-table-interval', {
         intervalCount: Number
     },
     template: `
-        <div class="row my-2"> 
+        <div class="row my-0 py-2 border" v-bind:class="{ 'interval-apnea': type=='apnea', 'interval-breathe': type=='breathe'}"> 
             <div class="col-auto">
                 <select v-model="type">
                     <option v-for="(value, key) of type_map" v-bind:value="key">
