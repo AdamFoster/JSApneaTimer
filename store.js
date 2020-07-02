@@ -41,7 +41,7 @@ const store = new Vuex.Store({
             state.tables[payload.tableIndex] = _.cloneDeep(payload.table);
         },
         deleteTable (state, tableIndex) {
-            state.tables.intervals.splice(tableIndex, 1);
+            state.tables.splice(tableIndex, 1);
         },
         createCO2Table (state, max_breathold) {
             let table = { label: 'New CO2 Table', intervals: []};

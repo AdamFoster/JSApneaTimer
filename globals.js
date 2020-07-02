@@ -7,13 +7,6 @@ var INTERVAL_TYPES_MAP = {
     breathe: 'Breathe'
 }
 
-var STATES = {
-    TIMER: 'timer',
-    EDIT: 'edit',
-    LIST: 'list',
-    CREATE: 'create'
-};
-
 function SECONDS_TO_MIN_SEC(seconds) {
     m = seconds/60|0;
     s = seconds%60;

@@ -16,8 +16,7 @@ Vue.component('list-tables', {
                     v-bind:table="table"
                     v-bind:table-index="index"
                     v-bind:key="table.label"
-                    v-on:edit-table="$emit(editTable)"
-                    v-on:go-table="$emit(goTable)"
+                    v-on:delete-table="deleteTable"
                 ></div>
             </div>
             <router-link :to="'/table/new'">Create Table</router-link>
@@ -33,6 +32,9 @@ Vue.component('list-tables', {
     
     },
     methods: {
-
+        deleteTable(tableIndex) {
+            console.log('Deleting ' + tableIndex);
+            this.$store.commit('deleteTable', Number(tableIndex) );
+        }
     }
 });
