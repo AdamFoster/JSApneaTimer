@@ -12,6 +12,7 @@ const router = new VueRouter({
 var app = new Vue({
     router, store,
     el: '#app',
+    beforeCreate() { this.$store.commit('initialiseStore');},
     data: {
 
     },

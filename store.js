@@ -2,12 +2,12 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        xtables: [], 
+        tables: [], 
         emptyTable: {
             label: 'New table',
             intervals: [ { type: 'breathe', duration: 0} ],
         },
-        tables: [
+        defaultTables: [
             {
                 label: 'Demo CO2 table',
                 intervals: [
@@ -33,15 +33,26 @@ const store = new Vuex.Store({
         ],
     },
     mutations: {
+        initialiseStore (state, poayload) {
+            let tableJson = window.localStorage.getItem('tables');
+            if (tableJson) {
+                state.tables = JSON.parse(tableJson);
+            }
+            else {
+                state.tables = state.defaultTables;
+            }
+        },
         addTable (state, table) {
             state.tables.push(table);
         },
         updateTable (state, payload) { //table, tableIndex
             //console.log(payload);
             state.tables[payload.tableIndex] = _.cloneDeep(payload.table);
+            localStorage.setItem('tables', JSON.stringify(state.tables));
         },
         deleteTable (state, tableIndex) {
             state.tables.splice(tableIndex, 1);
+            localStorage.setItem('tables', JSON.stringify(state.tables));
         },
         createCO2Table (state, max_breathold) {
             let table = { label: 'New CO2 Table', intervals: []};
@@ -50,6 +61,7 @@ const store = new Vuex.Store({
                 table.intervals.push({type: 'apnea', duration: (max_breathold/2)|0});
             }
             state.tables.push(table);
+            localStorage.setItem('tables', JSON.stringify(state.tables));
         },
         createO2Table (state, max_breathold) {
             let table = { label: 'New O2 Table', intervals: []};
@@ -58,9 +70,11 @@ const store = new Vuex.Store({
                 table.intervals.push({type: 'apnea', duration: (max_breathold*i/100)|0});
             }
             state.tables.push(table);
+            localStorage.setItem('tables', JSON.stringify(state.tables));
         },
         createBlankTable (state) {
             state.tables.push(_.cloneDeep(state.emptyTable));
+            localStorage.setItem('tables', JSON.stringify(state.tables));
         }
     }
 });
