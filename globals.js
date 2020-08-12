@@ -13,3 +13,7 @@ function SECONDS_TO_MIN_SEC(seconds) {
     return (''+m).padStart(2, '0') + ":" + (''+s).padStart(2, '0');
 }
 
+var SHORTHAND_TYPES = {
+    apnea: 'a',
+    breathe: 'b'
+}
