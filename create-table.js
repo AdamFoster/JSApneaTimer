@@ -19,8 +19,8 @@ Vue.component('create-table', {
                         </div>
                         <div class="row">
                             <div class="col mb-2">
-                                <button v-on:click="$emit('new-co2', max)">New CO2 table</button>
-                                <button v-on:click="$emit('new-o2', max)">New O2 table</button>
+                                <button v-on:click="newCO2">New CO2 table</button>
+                                <button v-on:click="newO2">New O2 table</button>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@ Vue.component('create-table', {
                     <div class="container">     
                         <div class="row">
                             <div class="col-sm-auto my-2">                
-                                <button v-on:click="$emit('new-blank', max)">New blank table</button>
+                                <button v-on:click="newBlank">New blank table</button>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@ Vue.component('create-table', {
             </div>
             <div class="row">
                 <div class="col my-4">
-                    <button v-on:click="$emit('new-cancel', max)">Cancel</button>
+                    <router-link to="/">Cancel</router-link>
                 </div>
             </div>
         </div>
@@ -51,5 +51,29 @@ Vue.component('create-table', {
         return {
             max: 0,
         };
+    },
+    methods: {
+        newCO2: function() {
+            if (Number(this.max) > 0) {
+                this.$store.commit('createCO2Table', Number(this.max) );
+                this.$router.push('/table/' + (this.$store.state.tables.length-1));
+            }
+            else {
+                console.log("Error: max must be a number > 0");
+            }
+        },
+        newO2: function() {
+            if (Number(this.max) > 0) {
+                this.$store.commit('createO2Table', Number(this.max) );
+                this.$router.push('/table/' + (this.$store.state.tables.length-1));
+            }
+            else {
+                console.log("Error: max must be a number > 0");
+            }
+        },
+        newBlank: function() {
+            this.$store.commit('createBlankTable');
+            this.$router.push('/table/' + (this.$store.state.tables.length-1));
+        },
     }
 })

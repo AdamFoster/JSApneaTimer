@@ -1,9 +1,9 @@
-const EditTable = Vue.component('edit-table', {
+const ImportTable = Vue.component('import-table', {
     props: {
     },
     template: `
         <div> 
-            <div>Editing table <input v-model="newTable.label"></input> </div>
+            <div class="my-2">Imported table: <input v-model="newTable.label"></input> </div>
             <div class="container">
                 <div is="edit-table-interval"
                     v-for="(interval, index) in newTable.intervals"
@@ -19,7 +19,7 @@ const EditTable = Vue.component('edit-table', {
                     v-on:down-interval="downInterval"
                 ></div>
             </div class="container">
-            <div>Total time: {{ secondsToMS(totalDuration) }}</div>
+            <div class="my-2">Total time: {{ secondsToMS(totalDuration) }}</div>
             <button v-on:click="save">Save</button> 
             <router-link to="/">Cancel</router-link>
             <button v-on:click="revert" v-if="! isCreateTable">Revert</button> 
@@ -27,9 +27,17 @@ const EditTable = Vue.component('edit-table', {
     `,
     data: function() {
         return { 
-            newTable: this.$route.name === 'createTable' ? 
-                _.cloneDeep(this.$store.state.emptyTable):
-                _.cloneDeep(this.$store.state.tables[this.$route.params.index]),
+            newTable: {
+                label: "Imported table name",
+                intervals: this.$route.query.t ? this.$route.query.t.split(',').reduce((accumulator, string, currentIndex, array) => {
+                    let interval = {
+                        type: string[0] === "a" ? "apnea" : "breathe",
+                        duration: Number(string.substring(1))
+                    }
+                    accumulator.push(interval);
+                    return accumulator;
+                }, []) : [],
+            }
         }
     }, 
     computed: {
@@ -37,7 +45,7 @@ const EditTable = Vue.component('edit-table', {
             return this.newTable.intervals.reduce((accumulator, currentValue) => accumulator + currentValue.duration, 0);
         },
         isCreateTable: function() {
-            return (this.$route.name === 'createTable');
+            return (true);
         }
     },
     created: function() {

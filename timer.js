@@ -1,7 +1,5 @@
 Vue.component('timer', {
     props: {
-        initalTable: Object, 
-        tableIndex: Number,
     },
     template: `
         <div class="container">
@@ -43,14 +41,13 @@ Vue.component('timer', {
                         </div>
                     </div>
 
-
-                    <button v-on:click="done">Back Home</button> 
+                    <router-link to="/">Go back home</router-link> 
                     
                 </div>
                 
                 <div class="col">
                     <div class="list-group">
-                        <div v-for="(interval, index) in table.intervals" class="list-group-item" v-bind:class="{ active: index==currentInterval }">
+                        <div v-for="(interval, index) in table.intervals" class="list-group-item" v-bind:class="{ active: index==currentInterval, 'interval-apnea': interval.type=='apnea', 'interval-breathe': interval.type=='breathe'}">
                             {{ types[interval.type] }} for {{ secondsToMS(interval.duration) }}
                         </div>
                     </div>
@@ -62,7 +59,7 @@ Vue.component('timer', {
     data: function() {
         return {
             state: 'Ready',
-            table: _.cloneDeep(this.initalTable),
+            // table: _.cloneDeep(this.initalTable),
             currentInterval: -1,
             elapsedTimeMillis: 0,
             intervalElapsedTimeMillis: 0,
@@ -71,6 +68,8 @@ Vue.component('timer', {
             lastTick: 0,
             error: '',
             timerHandle: 0,
+            audioContext: new AudioContext(),
+            previousSecond: -1,
         };
     },
     methods: {
@@ -82,6 +81,7 @@ Vue.component('timer', {
                 }
                 this.lastTick = Date.now();
                 this.timerHandle = setInterval(() => this.tick(), 50);
+                this.previousSecond = 0;
             }
             else {
                 this.error = 'Error trying to start a timer in "' + this.state + '" state';
@@ -120,7 +120,7 @@ Vue.component('timer', {
                 this.timerHandle = 0;
             }
             this.state = this.timerStates.done;
-            this.$emit('done', this.tableIndex);
+            this.$emit('done'); //, this.tableIndex);
         },
         secondsToMS(seconds) {
             return SECONDS_TO_MIN_SEC(seconds);
@@ -135,22 +135,48 @@ Vue.component('timer', {
             this.elapsedTimeMillis += (newTick - this.lastTick);
             this.intervalElapsedTimeMillis += (newTick - this.lastTick);
 
+            //check for second flip
+            let currentSecond = (this.intervalElapsedTimeMillis/1000|0)
+            if (this.previousSecond != currentSecond) {
+                //second has flipped
+                let remainingSeconds = this.table.intervals[this.currentInterval].duration - currentSecond;
+                if (0 < remainingSeconds && remainingSeconds <= 3) {
+                    this.beep(50, 440, 150);
+                } 
+            }
+            this.previousSecond = currentSecond;
+
             if (this.intervalElapsedTimeMillis > this.table.intervals[this.currentInterval].duration * 1000) {
                 //next interval
                 this.intervalElapsedTimeMillis = this.intervalElapsedTimeMillis - this.table.intervals[this.currentInterval].duration * 1000; // carry the leftovers
                 this.currentInterval++;
+                this.beep(50, 660, 150);
                 if (this.currentInterval == this.table.intervals.length) {
                     //got to the end
                     this.currentInterval = -1;
                     this.state  = this.timerStates.done;
                 }
-
             }
 
             this.lastTick = newTick;
-        }
+        },
+        beep(vol, freq, duration) { //duration in ms
+            let v = this.audioContext.createOscillator();
+            let u = this.audioContext.createGain();
+            v.connect(u);
+            v.frequency.value = freq;
+            v.type = "square";
+            u.connect(this.audioContext.destination);
+            u.gain.value = vol*0.01;
+            v.start(this.audioContext.currentTime);
+            v.stop(this.audioContext.currentTime + duration*0.001);
+          },
+          
     },
     computed: {
+        table: function() {
+            return this.$store.state.tables[this.$route.params.index];
+        },
         totalDuration: function() {
             return this.table.intervals.reduce((accumulator, currentValue) => accumulator + currentValue.duration, 0);
         },

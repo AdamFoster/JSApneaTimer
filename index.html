@@ -4,76 +4,27 @@
     <title>JS Apnea Timer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link type="text/css" rel="stylesheet" href="styles.css" />
-
     <!-- Load required Bootstrap and BootstrapVue CSS -->
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
 
+    <link type="text/css" rel="stylesheet" href="styles.css" />
+
     <script src="//unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vuex"></script>
+    <script src="//unpkg.com/vue-router"></script>
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+    <script srr="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
     <div id="app" class="container">
         <h1>Apnea Timer</h1>
-        <div v-if="state == 'list'" >
-            <p>Select a table</p>
-            <div class="container">
-                <div class="row my-2 d-none d-sm-flex">
-                    <div class="col-sm"><p class="font-weight-bold">Name</p></div>
-                    <div class="col-sm"><p class="font-weight-bold">Total Time</p></div>
-                    <div class="col-sm"><p class="font-weight-bold">Action</p></div>
-                </div>
-                <div is="table-item" 
-                    v-for="(table, index) in tables"
-                    v-bind:table="table"
-                    v-bind:table-index="index"
-                    v-bind:key="table.label"
-                    v-on:edit-table="editTable"
-                    v-on:go-table="goTable"
-                ></div>
-            </div>
-            <button v-on:click="newTable">Create Table</button>
-        </div>
 
-        <div is="edit-table"
-            v-if="state == 'edit' && tableIndex > -1"
-            v-bind:inital-table="tables[tableIndex]"
-            v-bind:table-index="tableIndex"
-            v-bind:key="tables[tableIndex].label"
-            v-on:save-edit="saveEdit"
-            v-on:cancel-edit="cancelEdit">
-        </div>
-
-        <div is="edit-table"
-            v-if="state == 'edit' && tableIndex == -1"
-            v-bind:inital-table="emptyTable"
-            v-bind:table-index="tableIndex"
-            v-bind:key="emptyTable.label"
-            v-on:save-edit="saveEdit"
-            v-on:cancel-edit="cancelEdit">
-        </div>
-
-        <div is="create-table"
-            v-if="state == 'create'"
-            v-on:new-co2="createCO2"
-            v-on:new-o2="createO2"
-            v-on:new-blank="createBlank"
-            v-on:new-cancel="createCancel">
-        </div>
-
-        <div is="timer"
-            v-if="state == 'timer' && tableIndex > -1"
-            v-bind:inital-table="tables[tableIndex]"
-            v-bind:table-index="tableIndex"
-            v-bind:key="tables[tableIndex].label"
-            v-on:done="done"
-        >
-        </div>
+        <router-view></router-view>
 
     </div> <!-- end app -->
 
@@ -83,7 +34,11 @@
     <script src="table-item.js"></script>
     <script src="edit-table.js"></script>
     <script src="create-table.js"></script>
+    <script src="list-tables.js"></script>
+    <script src="export-table.js"></script>
+    <script src="import-table.js"></script>
 
+    <script src="store.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

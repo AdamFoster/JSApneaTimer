@@ -7,16 +7,13 @@ var INTERVAL_TYPES_MAP = {
     breathe: 'Breathe'
 }
 
-var STATES = {
-    TIMER: 'timer',
-    EDIT: 'edit',
-    LIST: 'list',
-    CREATE: 'create'
-};
-
 function SECONDS_TO_MIN_SEC(seconds) {
     m = seconds/60|0;
     s = seconds%60;
     return (''+m).padStart(2, '0') + ":" + (''+s).padStart(2, '0');
 }
 
+var SHORTHAND_TYPES = {
+    apnea: 'a',
+    breathe: 'b'
+}
