@@ -112,14 +112,6 @@ Vue.component('timer', {
                 console.log(this.error);
             }
         },
-        done: function() {
-            if (this.state == this.timerStates.running) {
-                clearInterval(this.timerHandle);
-                this.timerHandle = 0;
-            }
-            this.state = this.timerStates.done;
-            this.$emit('done'); //, this.tableIndex);
-        },
         secondsToMS(seconds) {
             return SECONDS_TO_MIN_SEC(seconds);
         },
@@ -151,6 +143,8 @@ Vue.component('timer', {
                 this.beep(50, 660, 150);
                 if (this.currentInterval == this.table.intervals.length) {
                     //got to the end
+                    clearInterval(this.timerHandle);
+                    this.timerHandle = 0;
                     this.currentInterval = -1;
                     this.state  = this.timerStates.done;
                 }
