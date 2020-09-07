@@ -19,7 +19,8 @@ Vue.component('list-tables', {
                     v-on:delete-table="deleteTable"
                 ></div>
             </div>
-            <router-link :to="'/table/new'">Create Table</router-link>
+            <router-link :to="'/table/new'">Create Table</router-link> | 
+            <router-link :to="'/settings'">Settings</router-link>
         </div>
     `,
     data: function() {

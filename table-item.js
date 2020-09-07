@@ -8,8 +8,8 @@ Vue.component('table-item', {
             <div class="col-sm">{{ table.label }} </div>
             <div class="col-sm">{{ secondsToMS(totalDuration) }}</div>
             <div class="col-sm">
-                <router-link :to="'/table/'+tableIndex+'/edit'">Edit</router-link>
-                <router-link :to="'/table/'+tableIndex">Go</router-link>
+                <router-link :to="'/table/'+tableIndex+'/edit'">Edit</router-link> | 
+                <router-link :to="'/table/'+tableIndex">Go</router-link> | 
                 <a v-on:click.prevent="$emit('delete-table', tableIndex)" href="#">Delete</a>
             </div>
         </div>

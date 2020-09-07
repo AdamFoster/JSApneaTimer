@@ -57,7 +57,6 @@ Vue.component('timer', {
     data: function() {
         return {
             state: 'Ready',
-            // table: _.cloneDeep(this.initalTable),
             currentInterval: -1,
             elapsedTimeMillis: 0,
             intervalElapsedTimeMillis: 0,
@@ -68,6 +67,7 @@ Vue.component('timer', {
             timerHandle: 0,
             audioContext: new AudioContext(),
             previousSecond: -1,
+            volumeScale: this.$store.state.settings.volume / 100.0,
         };
     },
     methods: {
@@ -100,7 +100,7 @@ Vue.component('timer', {
         reset: function() {
             if (this.state == this.timerStates.done || this.state == this.timerStates.paused) {
                 this.state = this.timerStates.ready;
-                this.table = _.cloneDeep(this.initalTable);
+                //this.table = _.cloneDeep(this.initalTable);
                 this.currentInterval = -1;
                 this.elapsedTimeMillis = 0;
                 this.intervalElapsedTimeMillis = 0;
@@ -131,7 +131,7 @@ Vue.component('timer', {
                 //second has flipped
                 let remainingSeconds = this.table.intervals[this.currentInterval].duration - currentSecond;
                 if (0 < remainingSeconds && remainingSeconds <= 3) {
-                    this.beep(50, 440, 150);
+                    this.beep(50 * this.volumeScale, 440, 150);
                 } 
             }
             this.previousSecond = currentSecond;
@@ -140,7 +140,7 @@ Vue.component('timer', {
                 //next interval
                 this.intervalElapsedTimeMillis = this.intervalElapsedTimeMillis - this.table.intervals[this.currentInterval].duration * 1000; // carry the leftovers
                 this.currentInterval++;
-                this.beep(50, 660, 150);
+                this.beep(70 * this.volumeScale, 660, 150);
                 if (this.currentInterval == this.table.intervals.length) {
                     //got to the end
                     clearInterval(this.timerHandle);

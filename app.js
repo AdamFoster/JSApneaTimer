@@ -5,6 +5,7 @@ const routes = [
     { path: '/table/:index/edit', name: 'editTable', component: Vue.component('edit-table') },
     { path: '/table/:index/export', name: 'exportTable', component: Vue.component('export-table') },
     { path: '/table/:index', name: 'timer', component: Vue.component('timer') },
+    { path: '/settings', name: 'settings', component: Vue.component('settings') },
 ];
 
 const router = new VueRouter({

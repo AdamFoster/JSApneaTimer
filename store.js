@@ -31,6 +31,12 @@ const store = new Vuex.Store({
                 ]
             }
         ],
+        defaultSettings: {
+            volume: 50,
+            countDown: true,
+            tenSeconds: true,
+            oneMinute: true,
+        },
     },
     mutations: {
         initialiseStore (state, poayload) {
@@ -40,6 +46,13 @@ const store = new Vuex.Store({
             }
             else {
                 state.tables = state.defaultTables;
+            }
+            let settingsJson = window.localStorage.getItem('settings');
+            if (settingsJson) {
+                state.settings = JSON.parse(settingsJson);
+            }
+            else {
+                state.settings = state.defaultSettings;
             }
         },
         addTable (state, table) {
@@ -75,6 +88,10 @@ const store = new Vuex.Store({
         createBlankTable (state) {
             state.tables.push(_.cloneDeep(state.emptyTable));
             localStorage.setItem('tables', JSON.stringify(state.tables));
+        },
+        updateSettings (state, settings) {
+            state.settings = settings;
+            localStorage.setItem('settings', JSON.stringify(state.settings));
         }
     }
 });
