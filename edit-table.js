@@ -20,9 +20,10 @@ const EditTable = Vue.component('edit-table', {
                 ></div>
             </div class="container">
             <div>Total time: {{ secondsToMS(totalDuration) }}</div>
-            <button v-on:click="save">Save</button> 
-            <router-link to="/">Cancel</router-link>
-            <button v-on:click="revert" v-if="! isCreateTable">Revert</button> 
+
+            <a v-on:click.prevent="save" href="javascript:null;">Save</a> | 
+            <router-link to="/">Cancel</router-link> | 
+            <a v-on:click.prevent="revert" v-if="! isCreateTable" href="javascript:null;">Revert</a>
         </div>
     `,
     data: function() {
